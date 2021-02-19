@@ -7,12 +7,12 @@ const goods = [
   { title: 'Shoes', price: 250 },
 ];
 
-const renderGoodsItem = (title, price) => {
+const renderGoodsItem = ({title = 'Item', price = 100}) => {
   return `<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`;
 };
 
-const renderGoodsList = (list) => {
-  let goodsList = list.map(item => renderGoodsItem(item.title, item.price));
+const renderGoodsList = list => {
+  let goodsList = list.reduce((result, item) => result + renderGoodsItem(item), "");
   document.querySelector('.goods-list').innerHTML = goodsList;
 }
 
