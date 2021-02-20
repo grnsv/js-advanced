@@ -1,0 +1,50 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  height: 60px;
+  border: 1px solid #000;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding: 15px 30px;
+}
+
+header button.cart-button {
+  height: 30px;
+  padding: 0px 15px;
+  border: 1px solid #000;
+  border-radius: 15px;
+  background-color: #fff;
+}
+
+main {
+  padding: 30px 60px;
+}
+
+main .goods-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+main .goods-list .goods-item {
+  width: 210px;
+  height: 270px;
+  margin-bottom: 30px;
+  padding: 15px;
+  border: 1px solid #000;
+}
+/*# sourceMappingURL=style.css.map */
