@@ -3,30 +3,13 @@ class ProductList {
   #allProducts;
 
   constructor(container = '.products') {
-    console.log('constructor');
     this.container = container;
-    // this._goods = [];
     this.#goods = [];
     this.#allProducts = [];
 
     this.#fetchGoods();
     this.#render();
-
-    // this.sum = 0; // BAD!
   }
-
-  // goodsTotalPrice() { // Very BAD!
-  //   this.#goods.forEach((good) => {
-  //     this.sum += good.price;
-  //   });
-  //
-  //   document.querySelector('.someBlock').insertAdjacentHTML('beforeend', `Сумма = ${this.sum}`);
-  //   // return НО НЕ this.sum!!!
-  // }
-  //
-  // getTotalWithDiscount(discount) {
-  //   return this.goodsTotalPrice() * discount;
-  // }
 
   #fetchGoods() {
     this.#goods = [
@@ -42,10 +25,13 @@ class ProductList {
 
     this.#goods.forEach((product) => {
       const productObject = new ProductItem(product);
-      console.log(productObject);
       this.#allProducts.push(productObject);
       block.insertAdjacentHTML('beforeend', productObject.render());
     });
+  }
+
+  calcSum() {
+    return this.#allProducts.reduce((sum, {price}) => sum + price, 0);
   }
 }
 
@@ -70,25 +56,19 @@ class ProductItem {
 }
 
 const productList = new ProductList();
+console.log(productList.calcSum());
 
-// const products = [
-//   {id: 1, title: 'Notebook', price: 20000},
-//   {id: 2, title: 'Mouse', price: 1500},
-//   {id: 3, title: 'Keyboard', price: 5000},
-//   {id: 4, title: 'Gamepad', price: 4500},
-// ];
+class Cart {
+  #goods;
+  #fetchGoods() {}
+  #render() {}
+  calcSum() {}
+  clearGoods() {}
+  addGoods(item, qty) {}
+}
 
-// const renderProduct = ({title = 'Item', price = 100}, img='https://placehold.it/200x150') => `<div class="product-item" data-id="${this.id}">
-//               <img src="${img}" alt="Some img">
-//               <div class="desc">
-//                   <h3>${title}</h3>
-//                   <p>${price} \u20bd</p>
-//                   <button class="buy-btn">Купить</button>
-//               </div>
-//           </div>`;
-
-// const renderProducts = list => {
-//   document.querySelector('.products').insertAdjacentHTML('beforeend', list.reduce((result, item) => result + renderProduct(item), ""));
-// };
-
-// renderProducts(products);
+class CartItem {
+  render() {}
+  removeItem() {}
+  changeQty(qty) {}
+}
