@@ -72,3 +72,90 @@ class CartItem {
   removeItem() {}
   changeQty(qty) {}
 }
+
+
+class Hamburger {
+
+  constructor(size, stuffing) {
+    this.size = size;
+    this.stuffing = stuffing;
+    this.toppings = new Set();
+  }
+
+  addTopping(topping) {
+    this.toppings.add(topping);
+  }
+  
+  removeTopping(topping) {
+    this.toppings.delete(topping);
+  }
+  
+  getToppings() {
+    return this.toppings;
+  }
+  
+  getSize() {
+    return this.size;
+  }
+
+  getStuffing() {
+    return this.stuffing;
+  }
+
+  calculatePrice() {
+    let price = 0;
+    price += this.sizeList[this.size].price;
+    price += this.stuffingList[this.stuffing].price;
+    this.toppings.forEach(topping => {
+      price += this.toppingList[topping].price;
+    });
+    return price;
+  }
+  
+  calculateCalories() {
+    let calories = 0;
+    calories += this.sizeList[this.size].calories;
+    calories += this.stuffingList[this.stuffing].calories;
+    this.toppings.forEach(topping => {
+      calories += this.toppingList[topping].calories;
+    });
+    return calories;
+  }
+}
+
+Hamburger.prototype.sizeList = {
+  small: {
+    price: 50,
+    calories: 20
+  },
+  big: {
+    price: 100,
+    calories: 40
+  }
+};
+
+Hamburger.prototype.stuffingList = {
+  cheese: {
+    price: 10,
+    calories: 20
+  },
+  salad: {
+    price: 20,
+    calories: 5
+  },
+  potato: {
+    price: 20,
+    calories: 5
+  },
+};
+
+Hamburger.prototype.toppingList = {
+  spice: {
+    price: 15,
+    calories: 0
+  },
+  mayo: {
+    price: 20,
+    calories: 5
+  }
+};
