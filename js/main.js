@@ -1,3 +1,5 @@
+//very very good
+
 class ProductList {
   #goods;
   #allProducts;
