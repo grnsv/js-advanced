@@ -1,5 +1,23 @@
 //very very good
 
+const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+// Перевести на Promise НЕ ИСПОЛЬЗОВАТЬ fetch
+let getRequest = (url, callBack) => {
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4) {
+      if (xhr.status !== 200) {
+        console.log('Error');
+      } else {
+        callBack(xhr.responseText);
+      }
+    }
+  }
+  xhr.send();
+};
+///////////////////////////////////////
+
 class ProductList {
   #goods;
   #allProducts;
@@ -9,17 +27,31 @@ class ProductList {
     this.#goods = [];
     this.#allProducts = [];
 
-    this.#fetchGoods();
-    this.#render();
+    // this.#fetchGoods();
+    // this.#render();
+    this.#getProducts()
+        .then((data) => {
+          this.#goods = [...data];
+          this.#render();
+        });
   }
 
-  #fetchGoods() {
-    this.#goods = [
-      {id: 1, title: 'Notebook', price: 20000},
-      {id: 2, title: 'Mouse', price: 1500},
-      {id: 3, title: 'Keyboard', price: 5000},
-      {id: 4, title: 'Gamepad', price: 4500},
-    ];
+  goodsTotalPrice() {
+    return this.#goods.reduce((sum, { price }) => sum + price, 0);
+  }
+
+  // #fetchGoods() {
+  //   getRequest(`${API}/catalogData.json`, (data) => {
+  //     this.#goods = JSON.parse(data);
+  //     this.#render();
+  //   });
+  // }
+  #getProducts() {
+    return fetch(`${API}/catalogData.json`)
+        .then((response) => response.json())
+        .catch((err) => {
+          console.log(err);
+        });
   }
 
   #render() {
@@ -30,10 +62,6 @@ class ProductList {
       this.#allProducts.push(productObject);
       block.insertAdjacentHTML('beforeend', productObject.render());
     });
-  }
-
-  calcSum() {
-    return this.#allProducts.reduce((sum, {price}) => sum + price, 0);
   }
 }
 
@@ -58,13 +86,12 @@ class ProductItem {
 }
 
 const productList = new ProductList();
-console.log(productList.calcSum());
 
 class Cart {
   #goods;
   #fetchGoods() {}
   #render() {}
-  calcSum() {}
+  goodsTotalPrice() {}
   clearGoods() {}
   addGoods(item, qty) {}
 }
@@ -74,90 +101,3 @@ class CartItem {
   removeItem() {}
   changeQty(qty) {}
 }
-
-
-class Hamburger {
-
-  constructor(size, stuffing) {
-    this.size = size;
-    this.stuffing = stuffing;
-    this.toppings = new Set();
-  }
-
-  addTopping(topping) {
-    this.toppings.add(topping);
-  }
-  
-  removeTopping(topping) {
-    this.toppings.delete(topping);
-  }
-  
-  getToppings() {
-    return this.toppings;
-  }
-  
-  getSize() {
-    return this.size;
-  }
-
-  getStuffing() {
-    return this.stuffing;
-  }
-
-  calculatePrice() {
-    let price = 0;
-    price += this.sizeList[this.size].price;
-    price += this.stuffingList[this.stuffing].price;
-    this.toppings.forEach(topping => {
-      price += this.toppingList[topping].price;
-    });
-    return price;
-  }
-  
-  calculateCalories() {
-    let calories = 0;
-    calories += this.sizeList[this.size].calories;
-    calories += this.stuffingList[this.stuffing].calories;
-    this.toppings.forEach(topping => {
-      calories += this.toppingList[topping].calories;
-    });
-    return calories;
-  }
-}
-
-Hamburger.prototype.sizeList = {
-  small: {
-    price: 50,
-    calories: 20
-  },
-  big: {
-    price: 100,
-    calories: 40
-  }
-};
-
-Hamburger.prototype.stuffingList = {
-  cheese: {
-    price: 10,
-    calories: 20
-  },
-  salad: {
-    price: 20,
-    calories: 5
-  },
-  potato: {
-    price: 20,
-    calories: 5
-  },
-};
-
-Hamburger.prototype.toppingList = {
-  spice: {
-    price: 15,
-    calories: 0
-  },
-  mayo: {
-    price: 20,
-    calories: 5
-  }
-};
