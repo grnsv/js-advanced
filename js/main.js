@@ -207,3 +207,37 @@ const listContext = {
 
 let cart = new Cart();
 let products = new ProductsList(cart);
+
+
+const str = "One: 'Hi Mary.' Two: 'Oh, hi.'\nOne: 'How are you doing?'\nTwo: 'I'm doing alright. How about you?'\nOne: 'Not too bad. The weather is great isn't it?'\nTwo: 'Yes. It's absolutely beautiful today.'\nOne: 'I wish it was like this more frequently.'\nTwo: 'Me too.'\nOne: 'So where are you going now?'\nTwo: 'I'm going to meet a friend of mine at the department store'\nOne: 'Going to do a little shopping?'\nTwo: 'Yeah, I have to buy some presents for my parents.'\nOne: 'What's the occasion?'\nTwo: 'It's their anniversary.'\nOne: 'That's great. Well, you better get going. You don't want to be late.'\nTwo: 'I'll see you next time.'\nOne: 'Sure.' Bye.'";
+console.log(str);
+
+const regexp = /'/gm;
+
+console.log(str.replace(regexp, '"'));
+
+console.log(str.replace(regexp, (match, offset) => {
+  if ( /\w/i.test(str[offset-1]) && /\w/i.test(str[offset+1]) ) {
+    return match;
+  } else {
+    return '"';
+  }
+}));
+
+document.getElementById("btn-submit").onclick = event => {
+  const validate = {
+    name: /^[a-zA-Zа-яА-ЯёЁ]+$/,
+    tel: /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    email: /^[-\w\d\.]+@[-\w\d\.]+\.\w+$/
+  };
+
+  for (let key in validate) {
+    let elem = document.getElementById(key),
+        match = elem.value.match(validate[key]);
+    if ( !match || elem.value.match(validate[key])[0] != elem.value ) {
+      event.preventDefault();
+      elem.style.borderColor = "red";
+      alert("Ошибка");
+    }
+  }
+}
