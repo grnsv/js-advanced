@@ -1,40 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-  <title>Интернет-магазин</title>
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/style.css">
-  <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
-  <script defer src="js/main.js"></script>
+    <meta charset="UTF-8">
+    <title>Интернет-магазин</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <div class="logo">Интернет-магазин</div>
-    <div class="cart">
-        <form action="#" class="search-form">
-            <input type="text" class="search-field">
-            <button class="btn-search" type="submit">
-                <i class="fas fa-search"></i>
-            </button>
-        </form>
-        <button class="btn-cart" type="button">Корзина</button>
-        <div class="cart-block invisible"></div>
-    </div>
-  </header>
-  <main>
-    <div class="products"></div>
-    <form action="#">
-      <label for="name">Имя:</label>
-      <input type="text" id="name" name="name"><br><br>
-      <label for="tel">Телефон:</label>
-      <input type="tel" id="tel" name="tel"><br><br>
-      <label for="email">E-mail:</label>
-      <input type="email" id="email" name="email"><br><br>
-      <label for="text">Текст:</label>
-      <textarea id="text" name="text" required></textarea><br><br>
-      <button id="btn-submit" type="submit">Отправить</button>
-    </form>
-  </main>
+<div id="app">
+    <header>
+        <div class="logo">Интернет-магазин</div>
+        <div class="cart">
+            <form action="#" class="search-form">
+                <input type="text" class="search-field">
+                <button class="btn-search" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            <button class="btn-cart" type="button">Корзина</button>
+        </div>
+    </header>
+    <main>
+        <div class="products">
+            <div class="product-item" v-for="product of products" :key="product.id_product">
+                <img :src="imgCatalog" alt="Some img">
+                <div class="desc">
+                    <h3>{{product.product_name}}</h3>
+                    <p>{{product.price}}₽</p>
+                    <button class="buy-btn" @click="addProduct(product)">Купить</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>
