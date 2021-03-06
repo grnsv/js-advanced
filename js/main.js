@@ -5,7 +5,13 @@ const app = new Vue({
     data: {
         catalogUrl: '/catalogData.json',
         imgCatalog: 'https://placehold.it/200x150',
+        allProducts: [],
         products: [],
+        searchLine: '',
+        isVisibleCart: false,
+        cartUrl: '/getBasket.json',
+        imgCart: 'https://placehold.it/50x100',
+        cart: [],
     },
     methods: {
         getJson(url){
@@ -17,6 +23,10 @@ const app = new Vue({
         },
         addProduct(product) {
             console.log(product)
+        },
+        filterGoods() {
+            const regexp = new RegExp(this.searchLine, 'i');
+            this.products = this.allProducts.filter(product => regexp.test(product.product_name));
         }
     },
     beforeCreate() {
@@ -27,8 +37,21 @@ const app = new Vue({
         this.getJson(`${API + this.catalogUrl}`)
             .then(data => {
                 for(let el of data){
-                    this.products.push(el);
+                    this.allProducts.push(el);
                 }
+                this.products = this.allProducts;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        this.getJson(`${API + this.cartUrl}`)
+            .then(data => {
+                for(let el of data.contents){
+                    this.cart.push(el);
+                }
+            })
+            .catch(error => {
+                console.log(error);
             });
     },
     beforeMount() {
