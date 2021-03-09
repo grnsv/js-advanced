@@ -11,14 +11,16 @@ const app = new Vue({
         cartItems: [],
         filtered: [],
         imgCatalog: 'https://placehold.it/200x150',
-        imgCart: 'https://placehold.it/50x100'
+        imgCart: 'https://placehold.it/50x100',
+        errors: [],
     },
     methods: {
         getJson(url){
             return fetch(url)
                 .then(result => result.json())
                 .catch(error => {
-                    console.log(error);
+                    error.url = url;
+                    this.errors.push(error);
                 })
         },
         addProduct(product){
