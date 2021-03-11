@@ -8,13 +8,20 @@ Vue.component('products', {
         }
     },
     methods: {
-        filter(){
-            let regexp = new RegExp(this.userSearch, 'i');
+        filter(value){
+            let regexp = new RegExp(value, 'i');
             this.filtered = this.products.filter(el => regexp.test(el.product_name));
         }
     },
     mounted(){
         this.$parent.getJson(`${API + this.catalogUrl}`)
+            .then(data => {
+                for(let el of data){
+                    this.products.push(el);
+                    this.filtered.push(el);
+                }
+            });
+        this.$parent.getJson(`getProducts.json`)
             .then(data => {
                 for(let el of data){
                     this.products.push(el);
@@ -36,8 +43,7 @@ Vue.component('product', {
                 <div class="desc">
                     <h3>{{product.product_name}}</h3>
                     <p>{{product.price}}₽</p>
- 1                    <button class="buy-btn" @click="$root.$refs.cart.addProduct(product)">Купить</button>
-<!-- 2                    <button class="buy-btn" @click="$parent.$parent.$refs.cart.addProduct(product)">Купить</button>-->
+                    <button class="buy-btn" @click="$root.$refs.cart.addProduct(product)">Купить</button>
                 </div>
             </div>
     `
