@@ -1,5 +1,6 @@
 const fs = require('fs');
 const cart = require('./cart');
+const logger = require('./logger');
 
 const actions = {
   add: cart.add,
@@ -17,7 +18,7 @@ const handler = (req, res, action, file) => {
         if (err) {
           res.send('{"result": 0}');
         } else {
-
+          logger.write(action, data, req);
           res.send('{"result": 1}');
         }
       })
